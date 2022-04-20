@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/animalCardTopLevelConstraintLayout">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/animalCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="7dp">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/primaryLightColor">
+
+            <LinearLayout
+                android:id="@+id/animalCardViewDetailsLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!--                9.62f,5.83f-->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/animalCardImageCard"
+                    android:layout_width="110dp"
+                    android:layout_height="95dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:elevation="10dp"
+                    app:cardCornerRadius="8dp">
+
+                    <ImageView
+                        android:id="@+id/animalCardImageCardImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:scaleType="center"
+                        app:srcCompat="@drawable/ic_baseline_image_24" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/animalCardCaseIDLinearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/animalCardShowCaseID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CaseId: "
+                            android:textColor="@color/primaryDarkColor" />
+
+                        <TextView
+                            android:id="@+id/animalCardCaseID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textColor="@color/primaryDarkColor" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/animalCardName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="AnimalBigName"
+                        android:textColor="@color/primaryDarkColor" />
+
+                    <TextView
+                        android:id="@+id/animalCardType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="AnimalType"
+                        android:textColor="@color/primaryDarkColor" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/animalCardViewStatusLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/animalCardViewDetailsLinearLayout"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/animalCardStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Status:"
+                    android:textColor="@color/primaryDarkColor" />
+
+                <LinearLayout
+                    android:id="@+id/animalCardStatusBar"
+                    android:layout_width="80dp"
+                    android:layout_height="5dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/animalStatus"
+                    android:orientation="vertical"></LinearLayout>
+
+                <TextView
+                    android:id="@+id/animalCardShowStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="In Process"
+                    android:textAlignment="center"
+                    android:textColor="@color/primaryDarkColor"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
