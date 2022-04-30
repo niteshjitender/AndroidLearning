@@ -71,7 +71,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
           }
 
           //Setting animal Image
-          holder.animalCardImageView.setImageBitmap((Bitmap)animalCardImageViewArray.get(position)) ;
+          if(animalCardImageViewArray.get(position) != null)
+            holder.animalCardImageView.setImageBitmap((Bitmap)animalCardImageViewArray.get(position)) ;
 
           //Recycler view on card press
           holder.animalCardTopLevelConstraintLayout.setOnClickListener(new View.OnClickListener() {

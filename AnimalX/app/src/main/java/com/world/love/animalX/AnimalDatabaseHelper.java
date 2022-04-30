@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -125,6 +126,9 @@ public class AnimalDatabaseHelper {
         contentValues.put(ANIMAL_ENTRY_DATE, animalEntryDateInMilliSeconds) ;
         contentValues.put(ANIMAL_COMPLETION_DATE, animalCompletionDateInMilliSeconds) ;
         contentValues.put(ANIMAL_AGE, animalAge) ;
+
+        Log.i("Database:", "Inserting these values" + contentValues.toString());
+
         long result = mDb.insert(ANIMAL_TABLE,null,contentValues);
         if(result == -1){
             return false ;
@@ -151,6 +155,8 @@ public class AnimalDatabaseHelper {
         contentValues.put(ANIMAL_ENTRY_DATE, animalEntryDateInMilliSeconds) ;
         contentValues.put(ANIMAL_COMPLETION_DATE, animalCompletionDateInMilliSeconds) ;
         contentValues.put(ANIMAL_AGE, animalAge) ;
+
+        Log.i("Database:", "Updating these values" + contentValues.toString());
 
         Cursor cursor = mDb.rawQuery(UPDATE_RAW_QUERY, new String[] {animalCaseId}) ;
         if(cursor.getCount() > 0){

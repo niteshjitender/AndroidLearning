@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -58,6 +59,9 @@ public class AddAnimalDetails extends AppCompatActivity {
 
     //Top level layout for add animals
     ConstraintLayout animalDetailsConstraintLayout ;
+
+    //To keep the flag to check whether an image is selected or not
+    boolean isImageSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,12 +110,16 @@ public class AddAnimalDetails extends AppCompatActivity {
             animalDetailsEmptyDataLayout.setVisibility(View.VISIBLE);
         }
 
+        //Setting isImageSelected to false
+        isImageSelected = false;
+
         //Setting Title of Action bar
         ActionBar actionBar = getSupportActionBar() ;
         actionBar.setTitle("New Animal");
 
         //Disabling completion button
         animalDetailsCompletionDateButton.setEnabled(false);
+
         animalDetailsAddImageFloatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +145,9 @@ public class AddAnimalDetails extends AppCompatActivity {
                 //Getting image from imageView
                 animalDetailsImageView.buildDrawingCache();
                 Bitmap bitmap = animalDetailsImageView.getDrawingCache();
+
+                Log.wtf("Image:",bitmap.toString());
+
                 ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream() ;
                 bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteBuffer);
 
@@ -170,6 +181,11 @@ public class AddAnimalDetails extends AppCompatActivity {
                 try{
                     dbHelper.open() ;
                     byte [] animalImageBytes = byteBuffer.toByteArray();
+                    Log.i("Data:", "Data to be updated:- animalName:" + animalNameTxt + ", animalType:" + animalTypeTxt + ", animalStatus:" + animalStatusTxt
+                            + ", animalDisease:" + animalDiseaseTxt + ", animalLocation:" + animalLocationTxt + ", animalRemarks:" + animalRemarksTxt + ", animalReporter:" + animalReporterTxt + ", animalReporterContact:" +
+                            animalReporterContactTxt + ", animalRemarks:" + animalRemarksTxt + ", \n animalImageByteArray:" + animalImageBytes + ",\n" + ", animalEntryDate: (" + animalEntryDateTxt + ")" + animalEntryDateInMilliSeconds +
+                            ", animalCompletionDate: (" + animalCompletionDateTxt + ")"+ animalCompletionDateInMilliSeconds + ", animalAge:" + animalAgeTxt
+                    );
                     boolean checkInsertData = dbHelper.insertAnimalData(animalNameTxt,animalTypeTxt,animalStatusTxt,
                             animalDiseaseTxt,animalLocationTxt,animalReporterTxt,
                             animalReporterContactTxt,animalRemarksTxt,animalImageBytes, animalEntryDateInMilliSeconds, animalCompletionDateInMilliSeconds, animalAgeTxt) ;
@@ -205,6 +221,7 @@ public class AddAnimalDetails extends AppCompatActivity {
                                     @SuppressLint("SetTextI18n")
                                     @Override
                                     public void onPositiveButtonClick(Object selection) {
+                                        animalDetailsCompletionDateTextView.setText("Completion Date");
                                         animalDetailsCompletionDateButton.setEnabled(true);
                                         animalDetailsEntryDateTextView.setText(materialEntryDatePicker.getHeaderText());
                                     }
@@ -273,6 +290,7 @@ public class AddAnimalDetails extends AppCompatActivity {
                 if(selectImageUri != null){
                     animalDetailsEmptyDataLayout.setVisibility(View.GONE);
                     animalDetailsImageView.setImageURI(selectImageUri);
+                    isImageSelected = true;
                 }
             }
         }

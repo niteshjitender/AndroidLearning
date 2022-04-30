@@ -26,7 +26,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.ByteArrayOutputStream;
@@ -101,14 +104,14 @@ public class EditAnimalDetails extends AppCompatActivity {
         editAnimalDetailsAnimalRemarks = findViewById(R.id.editAnimalDetailsAnimalRemarks) ;
         editAnimalDetailsEntryDateTextView = findViewById(R.id.editAnimalDetailsEntryDateTextView) ;
         editAnimalDetailsCompletionDateTextView = findViewById(R.id.editAnimalDetailsCompletionDateTextView) ;
-        editAnimalDetailsAnimalAge = findViewById(R.id.animalDetailsAnimalAge) ;
+        editAnimalDetailsAnimalAge = findViewById(R.id.editAnimalDetailsAnimalAge) ;
 
         //Buttons
         editAnimalDetailsSubmitButton = findViewById(R.id.editAnimalDetailsSubmitButton) ;
         editAnimalDetailsCancelButton = findViewById(R.id.editAnimalDetailsCancelButton) ;
         editAnimalDetailsDeleteButton = findViewById(R.id.editAnimalDetailsDeleteButton) ;
-        editAnimalDetailsEntryDateButton = findViewById(R.id.animalDetailsEntryDateButton) ;
-        editAnimalDetailsCompletionDateButton = findViewById(R.id.animalDetailsCompletionDateButton) ;
+        editAnimalDetailsEntryDateButton = findViewById(R.id.editAnimalDetailsEntryDateButton) ;
+        editAnimalDetailsCompletionDateButton = findViewById(R.id.editAnimalDetailsCompletionDateButton) ;
 
         //layout if no image is selected
         editAnimalDetailsEmptyDataLayout = findViewById(R.id.editAnimalDetailsEmptyDataLayout) ;
@@ -119,6 +122,59 @@ public class EditAnimalDetails extends AppCompatActivity {
         //Setting Title of Action bar
         ActionBar actionBar = getSupportActionBar() ;
         actionBar.setTitle(ANIMAL_NAME);
+
+        //Disabling completion button
+        editAnimalDetailsCompletionDateButton.setEnabled(false);
+
+        //Getting datePicker
+        materialEntryDateBuilder = Utils.datePicker("Select Entry Date");
+        materialCompletionDateBuilder = Utils.datePicker("Select Completion Date");
+        materialEntryDatePicker = materialEntryDateBuilder.build() ;
+
+        editAnimalDetailsEntryDateButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        materialEntryDatePicker.addOnPositiveButtonClickListener(
+                                new MaterialPickerOnPositiveButtonClickListener() {
+                                    @SuppressLint("SetTextI18n")
+                                    @Override
+                                    public void onPositiveButtonClick(Object selection) {
+                                        editAnimalDetailsCompletionDateTextView.setText("Completion Date");
+                                        editAnimalDetailsCompletionDateButton.setEnabled(true);
+                                        editAnimalDetailsEntryDateTextView.setText(materialEntryDatePicker.getHeaderText());
+                                    }
+                                });
+                        materialEntryDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+                    }
+                });
+
+
+        editAnimalDetailsCompletionDateButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!editAnimalDetailsEntryDateTextView.getText().toString().equals("Entry Date")){
+                            long entryDateMilliSeconds = Long.parseLong(Utils.getMilliSecondDate(editAnimalDetailsEntryDateTextView.getText().toString().trim()));
+                            CalendarConstraints constraintsBuilder =
+                                    new CalendarConstraints.Builder()
+                                            .setValidator(DateValidatorPointForward.from(entryDateMilliSeconds)).build();
+                            materialCompletionDatePicker = materialEntryDateBuilder.setCalendarConstraints(constraintsBuilder).build();
+                        }
+                        else{
+                            materialCompletionDatePicker = materialCompletionDateBuilder.build() ;
+                        }
+                        materialCompletionDatePicker.addOnPositiveButtonClickListener(
+                                new MaterialPickerOnPositiveButtonClickListener() {
+                                    @SuppressLint("SetTextI18n")
+                                    @Override
+                                    public void onPositiveButtonClick(Object selection) {
+                                        editAnimalDetailsCompletionDateTextView.setText(materialCompletionDatePicker.getHeaderText());
+                                    }
+                                });
+                        materialCompletionDatePicker.show(getSupportFragmentManager(), "MATERIAL_DATE_PICKER");
+                    }
+                });
 
         editAnimalDetailsAddImageFloatingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,6 +274,11 @@ public class EditAnimalDetails extends AppCompatActivity {
                 try{
                     dbHelper.open() ;
                     byte [] animalImageBytes = byteBuffer.toByteArray();
+                    Log.i("Data:", "Data to be updated:- animalName:" + animalNameTxt + ", animalType:" + animalTypeTxt + ", animalStatus:" + animalStatusTxt
+                            + ", animalDisease:" + animalDiseaseTxt + ", animalLocation:" + animalLocationTxt + ", animalRemarks:" + animalRemarksTxt + ", animalReporter:" + animalReporterTxt + ", animalReporterContact:" +
+                            animalReporterContactTxt + ", animalRemarks:" + animalRemarksTxt + ", \n animalImageByteArray:" + animalImageBytes + ",\n" + ", animalEntryDate: (" + animalEntryDateTxt + ")" + animalEntryDateInMilliSeconds +
+                            ", animalCompletionDate: (" + animalCompletionDateTxt + ")"+ animalCompletionDateInMilliSeconds + ", animalAge:" + animalAgeTxt
+                    );
                     boolean isDataUpdated = dbHelper.updateAnimalData(ANIMAL_CASE_ID,animalNameTxt,animalTypeTxt,animalStatusTxt,
                             animalDiseaseTxt,animalLocationTxt,animalReporterTxt,
                             animalReporterContactTxt,animalRemarksTxt,animalImageBytes, animalEntryDateInMilliSeconds, animalCompletionDateInMilliSeconds, animalAgeTxt) ;
@@ -310,7 +371,9 @@ public class EditAnimalDetails extends AppCompatActivity {
                     String completionDateString = Utils.getStringDate(res.getString(11));
                     if(!completionDateString.isEmpty())
                         editAnimalDetailsCompletionDateTextView.setText(completionDateString);
-                    editAnimalDetailsAnimalAge.setText(res.getString(12));
+                    String animalAgeString = res.getString(12);
+                    if(!animalAgeString.isEmpty())
+                        editAnimalDetailsAnimalAge.setText(animalAgeString);
                 }
             }
             dbHelper.close();
