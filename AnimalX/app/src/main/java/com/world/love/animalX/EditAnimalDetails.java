@@ -196,7 +196,7 @@ public class EditAnimalDetails extends AppCompatActivity {
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(EditAnimalDetails.this);
 
-                builder.setTitle("WARNING, Entries are not saved!");
+                builder.setTitle("Warning, Entries are not saved!");
                 builder.setMessage("Are you sure to cancel the operation?");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -230,7 +230,7 @@ public class EditAnimalDetails extends AppCompatActivity {
                     dbHelper.close();
                 }
                 catch (Exception e){
-                    Utils.showToast(EditAnimalDetails.this,"Error!, entry can not be deleted");
+                    Utils.showToast(EditAnimalDetails.this,"Error!!, entry can not be deleted");
                     dbHelper.close();
                 }
             }
@@ -293,7 +293,7 @@ public class EditAnimalDetails extends AppCompatActivity {
                     dbHelper.close();
                 }
                 catch (Exception e){
-                    Utils.showToast(EditAnimalDetails.this,"Error!, Entry can not be updated");
+                    Utils.showToast(EditAnimalDetails.this,"Error!!, Entry can not be updated");
                     dbHelper.close();
                 }
             }
@@ -306,7 +306,7 @@ public class EditAnimalDetails extends AppCompatActivity {
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setTitle("WARNING, Entries are not saved!");
+        builder.setTitle("Warning, Entries are not saved!");
         builder.setMessage("Want to go back?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
