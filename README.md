@@ -8,3 +8,5 @@
 
 This app maintains the data of cases that comes in the NGO & status of their progress.
 
+Refer:[CONTRIBUTING.md](https://github.com/niteshjitender/AndroidLearning/blob/main/CONTRIBUTING.md) for the other details
+
