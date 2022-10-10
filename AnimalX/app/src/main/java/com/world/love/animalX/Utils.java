@@ -62,6 +62,10 @@ public class Utils {
         return read == PackageManager.PERMISSION_GRANTED ;
     }
 
+    /** 
+    This function starts the activity to choose the image file
+    @param AppCompatActivity context
+    */
     public static void openImageChooser(AppCompatActivity context) {
         //Using the library
         ImagePicker.with(context)
@@ -72,6 +76,11 @@ public class Utils {
 
     }
 
+    /**
+    This method showMessage in snackbar
+    @param ViewGroup layout
+    @param String message that needs to be shown
+     */
     public static void showMessage(ViewGroup layout, String message){
         Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_LONG) ;
         snackbar.show();
