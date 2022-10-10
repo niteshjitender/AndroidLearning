@@ -127,7 +127,7 @@ public class AnimalDatabaseHelper {
         contentValues.put(ANIMAL_COMPLETION_DATE, animalCompletionDateInMilliSeconds) ;
         contentValues.put(ANIMAL_AGE, animalAge) ;
 
-        Log.i("Database:", "Inserting these values" + contentValues.toString());
+        Log.i("Database: ", "Inserting these values" + contentValues.toString());
 
         long result = mDb.insert(ANIMAL_TABLE,null,contentValues);
         if(result == -1){
@@ -156,7 +156,7 @@ public class AnimalDatabaseHelper {
         contentValues.put(ANIMAL_COMPLETION_DATE, animalCompletionDateInMilliSeconds) ;
         contentValues.put(ANIMAL_AGE, animalAge) ;
 
-        Log.i("Database:", "Updating these values" + contentValues.toString());
+        Log.i("Database: ", "Updating these values" + contentValues.toString());
 
         Cursor cursor = mDb.rawQuery(UPDATE_RAW_QUERY, new String[] {animalCaseId}) ;
         if(cursor.getCount() > 0){
@@ -177,6 +177,9 @@ public class AnimalDatabaseHelper {
     public Boolean deleteAnimalData(String animalCaseId){
 
         Cursor cursor = mDb.rawQuery(DELETE_RAW_QUERY, new String[] {animalCaseId}) ;
+
+        Log.i("Database: ", "Deleting the animal data with case ID: {}", animalCaseId);
+
         if(cursor.getCount() > 0){
             long result = mDb.delete(ANIMAL_TABLE, ANIMAL_CASE_ID + " = ?", new String[] {animalCaseId}) ;
             if(result == -1){
@@ -194,12 +197,20 @@ public class AnimalDatabaseHelper {
 
 
     public Cursor getData(){
+
         Cursor cursor = mDb.rawQuery(GET_DATA_RAW_QUERY, null) ;
+
+        Log.i("Database: ", "Getting animal data");
+        
         return cursor ;
     }
 
     public Cursor getSingleAnimalDetails(String animalCaseId){
+
         Cursor cursor = mDb.rawQuery(SELECT_BY_ID_QUERY + animalCaseId, null) ;
+
+        Log.i("Database: ", "Getting the animal data with case ID: {}", animalCaseId);
+        
         return cursor ;
     }
 }
